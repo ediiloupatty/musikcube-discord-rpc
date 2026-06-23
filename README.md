@@ -27,7 +27,7 @@ musikcube  ──WebSocket(7905)──▶  bridge.js  ──Discord IPC──▶
 ### 1. Install
 
 ```sh
-git clone https://github.com/USERNAME/musikcube-discord-rpc.git
+git clone https://github.com/ediiloupatty/musikcube-discord-rpc.git
 cd musikcube-discord-rpc
 npm install
 ```
