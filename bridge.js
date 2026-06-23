@@ -88,8 +88,11 @@ function applyActivity(overview) {
     }
   }
 
-  const sig = JSON.stringify(activity);
-  if (sig === lastActivity) return; // no change, avoid spamming Discord
+  // Dedupe on track identity + state only (NOT the computed timestamps), so we
+  // don't spam Discord on every poll. Discord keeps the progress bar ticking
+  // from the startTimestamp we set once per track, so it stays live.
+  const sig = [t.id ?? title, overview.state, title, artist, album, overview.playing_duration].join("|");
+  if (sig === lastActivity) return;
   lastActivity = sig;
 
   discord.user
@@ -118,6 +121,8 @@ function clamp(s) {
 // ---------------------------------------------------------------------------
 let currentOverview = null;
 let ws = null;
+let pollTimer = null;
+const POLL_MS = Math.max(1000, (Number(config.musikcube.pollSeconds) || 2) * 1000);
 
 function connectMusikcube() {
   const url = `ws://${config.musikcube.host}:${config.musikcube.port}`;
@@ -142,6 +147,10 @@ function connectMusikcube() {
       if (opts.authenticated) {
         console.log("[musikcube] authenticated");
         send("get_playback_overview", {});
+        // musikcube doesn't reliably push broadcasts to every client, so poll
+        // the playback overview to keep the presence live across track changes.
+        clearInterval(pollTimer);
+        pollTimer = setInterval(() => send("get_playback_overview", {}), POLL_MS);
       } else {
         console.error("[musikcube] authentication failed (wrong password?)");
       }
@@ -157,6 +166,7 @@ function connectMusikcube() {
 
   ws.on("close", () => {
     console.error("[musikcube] disconnected; retrying in 5s. Is musikcube running?");
+    clearInterval(pollTimer);
     currentOverview = null;
     applyActivity(null);
     setTimeout(connectMusikcube, 5000);

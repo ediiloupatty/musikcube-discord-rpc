@@ -4,7 +4,8 @@
   "musikcube": {
     "host": "127.0.0.1",
     "port": 7905,
-    "password": ""
+    "password": "",
+    "pollSeconds": 2
   },
   "presence": {
     "largeImageKey": "musikcube",

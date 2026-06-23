@@ -92,15 +92,19 @@ login, drop that shortcut into the `shell:startup` folder.
 | `musikcubePath` | Path to `musikcube.exe` (used by the Windows launcher). |
 | `musikcube.host` / `.port` | musikcube WebSocket server address (default `127.0.0.1:7905`). |
 | `musikcube.password` | musikcube server password, if you set one. |
+| `musikcube.pollSeconds` | How often to refresh the now-playing track (default `2`). |
 | `presence.largeImageKey` | Art asset key uploaded in the Discord portal. |
 | `presence.largeImageText` | Tooltip text for the large image. |
 | `presence.showTimestamp` | Show the elapsed/remaining progress bar. |
 
 ## How it works
 
-The bridge authenticates to musikcube's WebSocket server, requests
-`get_playback_overview`, and listens for `playback_overview_changed` broadcasts.
-Each update is mapped to a Discord activity (type *Listening*) via
+The bridge authenticates to musikcube's WebSocket server and polls
+`get_playback_overview` every couple of seconds (musikcube doesn't reliably push
+broadcasts to every client). Updates are deduped on track identity, so Discord is
+only touched when the track or play state actually changes — the progress bar
+keeps ticking on its own from the timestamp set once per track. Each change is
+mapped to a Discord activity (type *Listening*) via
 [`@xhayper/discord-rpc`](https://github.com/xhayper/discord-rpc). See the
 [musikcube remote API docs](https://github.com/clangen/musikcube/wiki/remote-api-documentation).
 
