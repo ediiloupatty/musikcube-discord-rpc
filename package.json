@@ -1,0 +1,34 @@
+{
+  "name": "musikcube-discord-rpc",
+  "version": "1.0.0",
+  "description": "Show the track you're playing in musikcube as Discord Rich Presence.",
+  "type": "module",
+  "main": "bridge.js",
+  "bin": {
+    "musikcube-discord-rpc": "bridge.js"
+  },
+  "scripts": {
+    "start": "node bridge.js",
+    "test:musikcube": "node test-musikcube.js"
+  },
+  "keywords": [
+    "musikcube",
+    "discord",
+    "discord-rpc",
+    "rich-presence",
+    "now-playing",
+    "music"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">=18"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/USERNAME/musikcube-discord-rpc.git"
+  },
+  "dependencies": {
+    "@xhayper/discord-rpc": "^1.2.1",
+    "ws": "^8.18.0"
+  }
+}

@@ -1,0 +1,18 @@
+# Dependencies
+node_modules/
+
+# Personal config (contains your Discord Client ID) — use config.example.json instead
+config.json
+
+# Runtime logs
+*.log
+
+# Build output
+dist/
+build/
+
+# OS / editor cruft
+Thumbs.db
+.DS_Store
+.vscode/
+.idea/

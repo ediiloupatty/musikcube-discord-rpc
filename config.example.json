@@ -1,0 +1,15 @@
+{
+  "discordClientId": "PASTE_YOUR_DISCORD_CLIENT_ID_HERE",
+  "musikcubePath": "C:\\musikcube\\musikcube.exe",
+  "musikcube": {
+    "host": "127.0.0.1",
+    "port": 7905,
+    "password": ""
+  },
+  "presence": {
+    "largeImageKey": "musikcube",
+    "largeImageText": "musikcube",
+    "showTimestamp": true,
+    "idleAfterSeconds": 30
+  }
+}
